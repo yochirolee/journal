@@ -6,14 +6,14 @@ import { NoteView, NothingSelectedView } from "../Views";
 import { startNewNote } from "../../Store/Journal/thunks";
 export const JournalPage = () => {
 	const dispatch = useDispatch();
-	const { isSaving, active } = useSelector((state) => state.Journal);
+	const { isSaving, active,messageSaved } = useSelector((state) => state.Journal);
 	const onClickNewNote = () => {
 		dispatch(startNewNote());
 	};
 
 	return (
 		<JournalLayout>
-			{!!active ? <NoteView active={active} /> : <NothingSelectedView />}
+			{!!active ? <NoteView active={active} messageSaved={messageSaved} /> : <NothingSelectedView />}
 
 			<IconButton
 				onClick={onClickNewNote}
