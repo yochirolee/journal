@@ -25,7 +25,7 @@ export const NoteView = ({ active, messageSaved }) => {
 		if (messageSaved.length > 0) Swal.fire("Updated", messageSaved, "success");
 	}, [messageSaved]);
 
-	const onFormSubmit = (event) => {
+	const onSaveNote = (event) => {
 		event.preventDefault();
 		dispatch(startSaveNote());
 	};
@@ -44,10 +44,10 @@ export const NoteView = ({ active, messageSaved }) => {
 					{dateString}
 				</Typography>
 			</Grid>
-			<br />
-			<form onSubmit={onFormSubmit}>
+			
+			
 				<Grid item>
-					<Button type="submit" color="primary" sx={{ padding: 2 }}>
+					<Button onClick={onSaveNote} color="primary" sx={{ padding: 2 }}>
 						<SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
 						Guardar
 					</Button>
@@ -78,7 +78,7 @@ export const NoteView = ({ active, messageSaved }) => {
 						onChange={onInputChange}
 					></TextField>
 				</Grid>
-			</form>
+			
 			<ImageGallery />
 		</Grid>
 	);
