@@ -1,10 +1,10 @@
 import { Grid, TextField, Typography, Button, IconButton } from "@mui/material";
-import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import { SaveOutlined, UploadOutlined, DeleteOutline } from "@mui/icons-material";
 import { ImageGallery } from "../components/ImageGallery";
 import { useForm } from "../../Hooks/useForm";
 import { useEffect, useMemo, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { startSaveNote, startUploadFiles } from "../../Store/Journal/thunks";
+import { startSaveNote, startUploadFiles, startDeletingNote } from "../../Store/Journal/thunks";
 import { setActiveNote } from "../../Store/Journal/journalSlice";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
@@ -22,8 +22,9 @@ export const NoteView = ({ active, messageSaved, isSaving }) => {
 		dispatch(setActiveNote(formState));
 	}, [formState]);
 
-
-	
+	useEffect(() => {
+		if (messageSaved.length > 0) Swal.fire("Updated Note", messageSaved);
+	}, [messageSaved]);
 
 	const onSaveNote = (event) => {
 		event.preventDefault();
@@ -33,6 +34,10 @@ export const NoteView = ({ active, messageSaved, isSaving }) => {
 	const onFileInputChange = ({ target }) => {
 		if (target.files === 0) return;
 		dispatch(startUploadFiles(target.files));
+	};
+
+	const onDelete = () => {
+		dispatch(startDeletingNote());
 	};
 
 	return (
@@ -95,6 +100,13 @@ export const NoteView = ({ active, messageSaved, isSaving }) => {
 					minRows="5"
 					onChange={onInputChange}
 				></TextField>
+			</Grid>
+
+			<Grid container justifyContent="end">
+				<Button onClick={onDelete} sm={{ mt: 2 }} color="error">
+					<DeleteOutline />
+					Delete
+				</Button>
 			</Grid>
 
 			<ImageGallery />
